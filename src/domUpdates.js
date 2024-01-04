@@ -6,7 +6,7 @@ import { getAllData } from './apiCalls';
 
 const allRecipesBtn = document.querySelector('#allRecipesBtn');
 const homeContainer = document.querySelector('.home-container');
-const homeButton = document.querySelector('#homeButton');
+const viewHomeBtn = document.querySelector('#viewHomeBtn');
 const homeTitle = document.querySelector('.recipeOtd');
 const recipeCost = document.querySelector('.recipe-cost');
 const recipeImage = document.querySelector('.recipe-img');
@@ -14,12 +14,12 @@ const recipeIngredients = document.querySelector('.ingredients-list');
 const recipeInstructions = document.querySelector('.instructions-list');
 const recipesContainer = document.querySelector('.recipes-container');
 const recipeTitle = document.querySelector('.recipe-title');
-const removeSavedRecipe = document.querySelector('#rmvBtn');
+const removeSavedRecipeBtn = document.querySelector('#rmvBtn');
 const saveRecipeBtn = document.querySelector('#saveBtn');
 const searchInputAll = document.querySelector('#searchAll');
 const searchInputSaved = document.querySelector('#searchSaved');
 const searchSavedContainer = document.querySelector('.search-saved-container');
-const showSavedRecipes = document.querySelector('#showSavedRecipes');
+const viewSavedBtn = document.querySelector('#viewSavedBtn');
 const toRecipeContainer = document.querySelector('.to-recipe-container');
 const selectedUser = document.querySelector('#userBtn');
 
@@ -33,39 +33,43 @@ window.addEventListener('load', () => {
 });
 
 function retrieveData() {
-  getAllData().then(data => {
-    recipeData = data[0].recipes;
-    ingredientsData = data[1].ingredients;
-    userData = data[2].users;
-    displayRecipesHome(recipeData);
-    renderRandomUser();
-  }).catch(error => {
-    console.error('One or more fetch requests failed', error)
-    homeContainer.innerHTML += `<p>Appologies, something went wrong!</p>`
-  })
+  getAllData()
+    .then(data => {
+      recipeData = data[0].recipes;
+      ingredientsData = data[1].ingredients;
+      userData = data[2].users;
+      displayRecipesHome(recipeData);
+      renderRandomUser();
+    })
+    .catch(error => {
+      console.error('One or more fetch requests failed', error);
+      homeContainer.innerHTML += `<p>Appologies, something went wrong!</p>`;
+    });
 }
 
-homeButton.addEventListener('click', () => {
+viewHomeBtn.addEventListener('click', () => {
   displayRecipesHome(recipeData);
   renderHomeView();
 });
 homeContainer.addEventListener('click', e => {
   goToRecipe(e);
 });
-showSavedRecipes.addEventListener('click', renderSavedRecipes);
-removeSavedRecipe.addEventListener('click', () => {
+removeSavedRecipeBtn.addEventListener('click', () => {
   removeRecipe(recipesToCook, currentRecipe);
 });
 saveRecipeBtn.addEventListener('click', () => {
   saveRecipe(recipesToCook, currentRecipe);
 });
-showSavedRecipes.addEventListener('click', e => {
+viewSavedBtn.addEventListener('click', e => {
   renderSavedRecipes(e);
 });
-removeSavedRecipe.addEventListener('click', e => {
+removeSavedRecipeBtn.addEventListener('click', e => {
   removeRecipe(e);
 });
 recipesContainer.addEventListener('click', e => {
+  goToRecipe(e, recipeData);
+});
+homeContainer.addEventListener('click', e => {
   goToRecipe(e, recipeData);
 });
 allRecipesBtn.addEventListener('click', e => {
@@ -77,8 +81,8 @@ searchInputAll.addEventListener('keyup', e => {
   }
 });
 searchInputSaved.addEventListener('keyup', e => {
-  if (e.key === 'Enter'){
-    userSearchRecipes(recipesToCook, searchInputSaved)
+  if (e.key === 'Enter') {
+    userSearchRecipes(recipesToCook, searchInputSaved);
   }
 });
 
@@ -92,7 +96,7 @@ export function displayRecipesHome(recipeData) {
   let recipes = recipesFull.slice(0, 3);
   homeContainer.innerHTML = '';
   recipes.forEach(recipe => {
-    renderRecipeCard(homeContainer, recipe)
+    renderRecipeCard(homeContainer, recipe);
   });
 }
 
@@ -119,27 +123,27 @@ function renderAllRecipes(e) {
 function userSearchRecipes(givenRecipes, input) {
   const searchTerm = input.value.trim();
   const filtered = searchRecipes(givenRecipes, searchTerm);
-  if(!searchTerm) return
+  if (!searchTerm) return;
   if (typeof filtered === 'string') {
-    renderSearchResult() 
+    renderSearchResult();
     recipesContainer.innerHTML = '';
     recipesContainer.innerHTML = `<p>${filtered}</p>`;
     return;
   }
-  renderSearchResult()
+  renderSearchResult();
   recipesContainer.innerHTML = ``;
   filtered.forEach(recipe => {
     renderRecipeCard(recipesContainer, recipe);
   });
 }
 
-
 export function goToRecipe(e) {
   const selectedRecipe = e.target.closest('div');
   recipeData.forEach(recipe => {
     if (Number(selectedRecipe.id) === recipe.id) {
       currentRecipe = recipe;
-      renderRecipeView()
+      toggleAddRemoveSavedBtns();
+      renderRecipeView();
       renderRecipeTitle(recipe);
       renderRecipeCost(recipe);
       renderRecipeImg(recipe);
@@ -182,7 +186,7 @@ function renderRecipeIngredients(recipe) {
 
 function renderSavedRecipes(e) {
   const click = e.target.closest('a');
-  if (click.id === 'showSavedRecipes') {
+  if (click.id === 'viewSavedBtn') {
     renderSavedView();
     recipesContainer.innerHTML = '';
     recipesToCook.forEach(recipe => {
@@ -203,14 +207,16 @@ function renderSearchResult() {
   toRecipeContainer.classList.add('hidden');
   homeContainer.classList.add('hidden');
   recipesContainer.classList.remove('hidden');
-} 
+  viewSavedBtn.classList.remove('hidden');
+}
 
 function renderHomeView() {
   recipesContainer.classList.add('hidden');
   toRecipeContainer.classList.add('hidden');
   homeContainer.classList.remove('hidden');
   saveRecipeBtn.classList.add('hidden');
-  removeSavedRecipe.classList.add('hidden');
+  viewSavedBtn.classList.remove('hidden');
+  removeSavedRecipeBtn.classList.add('hidden');
   searchSavedContainer.classList.add('hidden');
   homeTitle.classList.remove('hidden');
 }
@@ -218,8 +224,9 @@ function renderHomeView() {
 function renderSavedView() {
   toRecipeContainer.classList.add('hidden');
   recipesContainer.classList.remove('hidden');
-  removeSavedRecipe.classList.add('hidden');
+  removeSavedRecipeBtn.classList.add('hidden');
   saveRecipeBtn.classList.add('hidden');
+  viewSavedBtn.classList.add('hidden');
   homeContainer.classList.add('hidden');
   searchSavedContainer.classList.remove('hidden');
   homeTitle.classList.add('hidden');
@@ -231,17 +238,27 @@ function renderAllRecipesView() {
   allRecipesBtn.classList.remove('hidden');
   homeContainer.classList.add('hidden');
   saveRecipeBtn.classList.add('hidden');
-  removeSavedRecipe.classList.add('hidden');
+  viewSavedBtn.classList.remove('hidden');
+  removeSavedRecipeBtn.classList.add('hidden');
   searchSavedContainer.classList.add('hidden');
   homeTitle.classList.add('hidden');
 }
 
 function renderRecipeView() {
   homeContainer.classList.add('hidden');
-  saveRecipeBtn.classList.remove('hidden');
+  viewSavedBtn.classList.remove('hidden');
   toRecipeContainer.classList.remove('hidden');
-  removeSavedRecipe.classList.remove('hidden');
   recipesContainer.classList.toggle('hidden');
   searchSavedContainer.classList.add('hidden');
   homeTitle.classList.add('hidden');
+}
+
+function toggleAddRemoveSavedBtns() {
+  if (recipesToCook.includes(currentRecipe)) {
+    removeSavedRecipeBtn.classList.remove('hidden');
+    saveRecipeBtn.classList.add('hidden');
+  } else {
+    removeSavedRecipeBtn.classList.add('hidden');
+    saveRecipeBtn.classList.remove('hidden');
+  }
 }
