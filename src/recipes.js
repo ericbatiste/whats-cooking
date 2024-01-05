@@ -1,10 +1,8 @@
 export const searchRecipes = (recipes, input) => {
   if (!input || input === '') return;
-  input.toLowerCase();
-  
   const filteredRecipes = recipes.filter(recipes => {
-      recipes.name.toLowerCase();
-    return recipes.tags.includes(input) || recipes.name.includes(input);
+    return recipes.tags.includes(input.toLowerCase()) || 
+    recipes.name.toLowerCase().includes(input.toLowerCase());
   });
   if (filteredRecipes.length === 0) {
     return `Sorry, we are unable to find any recipes to match ${input}!`;
