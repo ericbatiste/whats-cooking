@@ -1,5 +1,6 @@
 export const saveRecipe = (recipesToCook, currentRecipe) => {
     recipesToCook.push(currentRecipe);
+    console.log(recipesToCook)
   }
   
   export const removeRecipe = (recipesToCook, currentRecipe) => {

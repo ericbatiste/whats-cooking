@@ -2,7 +2,7 @@ import { render } from 'sass';
 import { shuffledRecipes, recipesToCook, getRandomIndex } from './scripts';
 import { saveRecipe, removeRecipe } from '../src/users';
 import { searchRecipes, calcRecipeCost, formatRecipeIngredients } from '../src/recipes';
-import { getAllData } from './apiCalls';
+import { getPromises, postUrl } from './apiCalls';
 
 const allRecipesBtn = document.querySelector('#allRecipesBtn');
 const homeContainer = document.querySelector('.home-container');
@@ -26,6 +26,8 @@ const selectedUser = document.querySelector('#userBtn');
 let recipeData;
 let ingredientsData;
 let userData;
+let usersRecipes;
+let currentUser;
 let currentRecipe;
 
 window.addEventListener('load', () => {
@@ -33,11 +35,13 @@ window.addEventListener('load', () => {
 });
 
 function retrieveData() {
-  getAllData()
+  Promise.all(getPromises)
     .then(data => {
+      console.log(data)
       recipeData = data[0].recipes;
       ingredientsData = data[1].ingredients;
       userData = data[2].users;
+      usersRecipes = data[3];
       displayRecipesHome(recipeData);
       renderRandomUser();
     })
@@ -45,6 +49,20 @@ function retrieveData() {
       console.error('One or more fetch requests failed', error);
       homeContainer.innerHTML += `<p>Appologies, something went wrong!</p>`;
     });
+}
+
+function postUserFavorite(saveRecipe) {
+  fetch(postUrl, {
+    method: 'POST',
+    body: JSON.stringify({
+      userID: currentUser.id,
+      recipeID: currentRecipe.id
+    }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(response => response.json())
+    .then(data => saveRecipe)
+    .catch(error => console.log(error));
 }
 
 viewHomeBtn.addEventListener('click', () => {
@@ -58,7 +76,7 @@ removeSavedRecipeBtn.addEventListener('click', () => {
   removeRecipe(recipesToCook, currentRecipe);
 });
 saveRecipeBtn.addEventListener('click', () => {
-  saveRecipe(recipesToCook, currentRecipe);
+  postUserFavorite(saveRecipe(recipesToCook, currentRecipe));
 });
 viewSavedBtn.addEventListener('click', e => {
   renderSavedRecipes(e);
@@ -87,8 +105,8 @@ searchInputSaved.addEventListener('keyup', e => {
 });
 
 export function renderRandomUser() {
-  const user = userData[getRandomIndex(userData)];
-  selectedUser.innerText = `Hello ${user.name}!`;
+  currentUser = userData[getRandomIndex(userData)];
+  selectedUser.innerText = `Hello ${currentUser.name}!`;
 }
 
 export function displayRecipesHome(recipeData) {
