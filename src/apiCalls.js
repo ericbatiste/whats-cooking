@@ -1,9 +1,34 @@
-const promises = [
-  fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/recipes').then(res => res.json()),
-  fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients').then(res => res.json()),
-  fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users').then(res => res.json())
+export const getPromises = [
+  fetch('http://localhost:3001/api/v1/recipes')
+  .then(res => {
+    if(!res.ok) {
+      throw new Error()
+    }
+    return res.json();
+  }),
+  fetch('http://localhost:3001/api/v1/ingredients')
+  .then(res => {
+    if(!res.ok) {
+      throw new Error()
+    }
+    return res.json()
+  }),
+  fetch('http://localhost:3001/api/v1/users')
+  .then(res => {
+    if(!res.ok) {
+      throw new Error()
+    }
+    return res.json()
+  }),
+  // fetch('http://localhost:3001/api/v1/usersRecipes')
+  // .then(res => {
+  //   if(!res.ok) {
+  //     throw new Error()
+  //   }
+  //   return res.json()
+  // })
 ];
 
-export const getAllData = () => {
-  return Promise.all(promises)
-};
+export const postUrl = 'http://localhost:3001/api/v1/usersRecipes';
+
+
