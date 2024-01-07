@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Cooking</title>
 </head>
+
 <body>
     <header>
-        <div class = "userLogin">
-            <div class = "userButton" id = "userBtn">User</div>
+        <div class="userLogin">
+            <div class="userButton" id="userBtn">User</div>
         </div>
         <div class="headerLogo">
-            <img id="banner" src="/images/cookingbannerv3.png" alt="project logo" width = "1708">
-          </div>
+            <img id="banner" src="/images/cookingbannerv3.png" alt="project logo" width="1708">
+        </div>
         <nav>
             <ul>
-                <li><a href="#" class = "btn" id="viewHomeBtn">Home</a></li>
-                <li><a href="#" class = "btn" id="allRecipesBtn">All Recipes</a></li>
-                <li><a href="#" class = "btn" id="viewSavedBtn">Saved</a></li>
+                <li><a href="#" class="btn" id="viewHomeBtn">Home</a></li>
+                <li><a href="#" class="btn" id="allRecipesBtn">All Recipes</a></li>
+                <li><a href="#" class="btn" id="viewSavedBtn">Saved</a></li>
                 <li><a href="#" class="btn hidden" id="saveBtn">Add to Saved</a></li>
                 <li><a href="#" class="btn hidden" id="rmvBtn">Remove From Saved</a></li>
                 <li><input class="search-input" id="searchAll" type="text" placeholder="Search All Recipes"></li>
@@ -30,6 +32,14 @@
         </div>
     </header>
     <main>
+        <button class="print-button" onclick="openPrintModal()">Print Page</button>
+        <div class="print-modal" id="printModal">
+            <div class="print-modal-content">
+                <p>Click the button below to print the page content.</p>
+                <button onclick="printPage()">Print</button>
+                <button onclick="closePrintModal()">Cancel</button>
+            </div>
+        </div>
         <h2 class="recipeOtd">Suggested for you!</h2>
         <section class="home-container">
         </section>
@@ -39,7 +49,7 @@
                 <img src="sample_image.jpg" alt="Recipe Image">
                 <p class="recipe-name">Delicious Recipe</p>
             </div> -->
-        
+
             <!-- Add more recipe cards here as needed -->
         </section>
         <section class="to-recipe-container hidden">
@@ -64,4 +74,5 @@
     </main>
     <script src="bundle.js"></script>
 </body>
+
 </html>

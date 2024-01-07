@@ -299,3 +299,16 @@ function toggleAddRemoveSavedBtns() {
     saveRecipeBtn.classList.remove('hidden');
   }
 }
+
+function openPrintModal() {
+  document.getElementById('printModal').style.display = 'flex';
+}
+
+function closePrintModal() {
+  document.getElementById('printModal').style.display = 'none';
+}
+
+function printPage() {
+  window.print();
+  closePrintModal();
+}
