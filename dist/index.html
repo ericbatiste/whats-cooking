@@ -32,12 +32,22 @@
         </div>
     </header>
     <main>
+        <!-- Print Button -->
         <button class="print-button" onclick="openPrintModal()">Print Page</button>
+
+        <!-- Print Modal -->
         <div class="print-modal" id="printModal">
             <div class="print-modal-content">
-                <p>Click the button below to print the page content.</p>
-                <button onclick="printPage()">Print</button>
-                <button onclick="closePrintModal()">Cancel</button>
+                <span class="close-modal">&times;</span>
+                <h2 id="printRecipeTitle" class="recipe-title"></h2>
+                    <div class="recipe-img"></div>
+                    <div class="recipe-details">
+                        <p id="printRecipeIngredients" class="ingredients-list"></p>
+                        <p id="printRecipeCost" class="recipe-cost"></p>
+                        <p id="printRecipeInstructions" class="instructions-list"></p>
+                    </div>
+                </div>
+                <button class="print-modal-button">Print</button>
             </div>
         </div>
         <h2 class="recipeOtd">Suggested for you!</h2>
