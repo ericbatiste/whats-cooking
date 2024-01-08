@@ -316,7 +316,6 @@ function toggleAddRemoveSavedBtns() {
 function openPrintModal() {
   const printRecipeTitle = document.getElementById('printRecipeTitle');
   const printRecipeIngredients = document.getElementById('printRecipeIngredients');
-  const printRecipeCost = document.getElementById('printRecipeCost');
   const printRecipeInstructions = document.getElementById('printRecipeInstructions');
   
   printRecipeTitle.innerText = currentRecipe.name;
@@ -326,9 +325,6 @@ function openPrintModal() {
   ingredientsToRender.forEach(({ name, amount, unit }) => {
     printRecipeIngredients.innerHTML += `<li>${name} | ${amount} ${unit}</li>`;
   });
-
-  const estimatedCost = calcRecipeCost(currentRecipe, ingredientsData);
-  printRecipeCost.innerText = `Estimated cost | $${estimatedCost}`;
 
   printRecipeInstructions.innerHTML = '';
   currentRecipe.instructions.forEach(instruction => {
@@ -343,7 +339,6 @@ function closePrintModal() {
 }
 
 function printPage() {
-  printModalDisplay.style.height = 'auto';
   window.print();
   closePrintModal();
 }

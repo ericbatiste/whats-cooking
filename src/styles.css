@@ -280,9 +280,10 @@ input {
 
 .print-modal-content {
   background: #fff;
-  width: 75%;
-  max-height: 80vh;
+  width: 90vw;
+  max-height: 100vh;
   padding: 20px;
+  margin-right: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -346,19 +347,4 @@ input {
   cursor: pointer;
   position: relative;
   top: 20px;
-}
-
-@media print {
-
-  .header,
-  .footer,
-  .non-printable {
-    display: none;
-  }
-
-  #printModal {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
 }
