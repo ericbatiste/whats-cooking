@@ -32,24 +32,6 @@
         </div>
     </header>
     <main>
-        <!-- Print Button -->
-        <button class="print-button" onclick="openPrintModal()">Print Page</button>
-
-        <!-- Print Modal -->
-        <div class="print-modal" id="printModal">
-            <div class="print-modal-content">
-                <span class="close-modal">&times;</span>
-                <h2 id="printRecipeTitle" class="recipe-title"></h2>
-                    <div class="recipe-img"></div>
-                    <div class="recipe-details">
-                        <p id="printRecipeIngredients" class="ingredients-list"></p>
-                        <p id="printRecipeCost" class="recipe-cost"></p>
-                        <p id="printRecipeInstructions" class="instructions-list"></p>
-                    </div>
-                </div>
-                <button class="print-modal-button">Print</button>
-            </div>
-        </div>
         <h2 class="recipeOtd">Suggested for you!</h2>
         <section class="home-container">
         </section>
@@ -59,7 +41,7 @@
                 <img src="sample_image.jpg" alt="Recipe Image">
                 <p class="recipe-name">Delicious Recipe</p>
             </div> -->
-
+            
             <!-- Add more recipe cards here as needed -->
         </section>
         <section class="to-recipe-container hidden">
@@ -80,7 +62,21 @@
                     <!-- <li></li> -->
                 </ul>
             </article>
+            <button class="print-button">Print Page</button>
         </section>
+        <div class="print-modal" id="printModal">
+            <div class="print-modal-content">
+                <button class="close-modal">&times;</button>
+                <h2 id="printRecipeTitle" class="recipe-title"></h2>
+                <div class="recipe-img"></div>
+                <div class="recipe-details">
+                    <p id="printRecipeCost" class="recipe-cost"></p>
+                    <div id="printRecipeIngredients" class="ingredients-list"></div>
+                    <div id="printRecipeInstructions" class="instructions-list"></div>
+                </div>
+            </div>
+            <button class="print-modal-button">Print</button>
+        </div>
     </main>
     <script src="bundle.js"></script>
 </body>
