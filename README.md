@@ -12,7 +12,8 @@ Welcome to What's Cooking, a website modeled after popular cooking sites such as
 
 # The Website
 - Home Page
-<img width="1440" alt="Screenshot 2024-01-08 at 3 50 26 PM" src="https://github.com/ericbatiste/whats-cooking/assets/145882814/d706faa8-e10e-4557-8369-ffb384325e64">
+<img width="1440" alt="Screenshot 2024-01-08 at 3 53 28 PM" src="https://github.com/ericbatiste/whats-cooking/assets/145882814/eca81d31-2558-4301-ba57-fe2bad3eace2">
+
 - Saved Recipe Page
 <img width="1437" alt="Screenshot 2024-01-08 at 3 51 03 PM" src="https://github.com/ericbatiste/whats-cooking/assets/145882814/916bd7c2-061f-4650-b023-5450d0ef3414">
 - Print Page
