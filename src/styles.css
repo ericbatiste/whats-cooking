@@ -122,6 +122,7 @@ input {
 .recipe-name {
   margin-top: 10px;
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 .hidden {
@@ -321,7 +322,7 @@ input {
 }
 
 .close-modal {
-  width: 30px; 
+  width: 30px;
   height: 30px;
   display: flex;
   justify-content: flex-end;
@@ -330,13 +331,13 @@ input {
   border: none;
   background: none;
   font-size: 20px;
-  color: #a92f43; 
+  color: #a92f43;
   margin-left: auto;
 }
 
 .print-modal-button {
   display: block;
-  margin: 20px auto 0; 
+  margin: 20px auto 0;
   padding: 10px;
   background: #a92f43;
   color: #fff;
@@ -348,13 +349,16 @@ input {
 }
 
 @media print {
-  .header, .footer, .non-printable {
+
+  .header,
+  .footer,
+  .non-printable {
     display: none;
   }
 
   #printModal {
     width: 100%;
     height: auto;
-    overflow: visible; 
+    overflow: visible;
   }
 }
