@@ -22,6 +22,9 @@ const searchSavedContainer = document.querySelector('.search-saved-container');
 const viewSavedBtn = document.querySelector('#viewSavedBtn');
 const toRecipeContainer = document.querySelector('.to-recipe-container');
 const selectedUser = document.querySelector('#userBtn');
+const printModal = document.querySelector('.print-modal-button');
+const printBtn = document.querySelector('.print-button');
+const closePrintModalBtn = document.querySelector('.close-modal');
 
 let recipeData;
 let ingredientsData;
@@ -87,9 +90,9 @@ viewHomeBtn.addEventListener('click', () => {
   displayRecipesHome(recipeData);
   renderHomeView();
 });
-homeContainer.addEventListener('click', e => {
-  goToRecipe(e);
-});
+// homeContainer.addEventListener('click', e => {
+//   goToRecipe(e);
+// });
 removeSavedRecipeBtn.addEventListener('click', () => {
   removeRecipe(recipesToCook, currentRecipe);
 });
@@ -99,14 +102,16 @@ saveRecipeBtn.addEventListener('click', () => {
 viewSavedBtn.addEventListener('click', e => {
   renderSavedRecipes(e);
 });
-removeSavedRecipeBtn.addEventListener('click', e => {
-  removeRecipe(e);
-});
+// removeSavedRecipeBtn.addEventListener('click', e => {
+//   removeRecipe(e);
+// });
 recipesContainer.addEventListener('click', e => {
   goToRecipe(e, recipeData);
+  console.log('recipe container')
 });
 homeContainer.addEventListener('click', e => {
   goToRecipe(e, recipeData);
+  console.log('homeContainer')
 });
 allRecipesBtn.addEventListener('click', e => {
   renderAllRecipes(e);
@@ -121,6 +126,9 @@ searchInputSaved.addEventListener('keyup', e => {
     userSearchRecipes(recipesToCook, searchInputSaved);
   }
 });
+printModal.addEventListener('click', printPage);
+printBtn.addEventListener('click', openPrintModal);
+closePrintModalBtn.addEventListener('click', closePrintModal);
 
 export function renderRandomUser() {
   currentUser = userData.find(user => user.id === 46)
@@ -175,6 +183,7 @@ function userSearchRecipes(givenRecipes, input) {
 }
 
 export function goToRecipe(e) {
+  console.log('function')
   const selectedRecipe = e.target.closest('div');
   recipeData.forEach(recipe => {
     if (Number(selectedRecipe.id) === recipe.id) {
@@ -300,12 +309,45 @@ function toggleAddRemoveSavedBtns() {
   }
 }
 
+
 function openPrintModal() {
+  const printRecipeTitle = document.getElementById('printRecipeTitle');
+  const printRecipeIngredients = document.getElementById('printRecipeIngredients');
+  const printRecipeCost = document.getElementById('printRecipeCost');
+  const printRecipeInstructions = document.getElementById('printRecipeInstructions');
+  recipeImage.classList.add('hidden');
+  printRecipeTitle.innerText = currentRecipe.name;
+
+  // Populate Ingredients
+  const ingredientsToRender = formatRecipeIngredients(currentRecipe, ingredientsData);
+  printRecipeIngredients.innerHTML = '<p>Ingredients:</p><ul>';
+  ingredientsToRender.forEach(({ name, amount, unit }) => {
+    printRecipeIngredients.innerHTML += `<li>${name} | ${amount} ${unit}</li>`;
+  });
+  printRecipeIngredients.innerHTML += '</ul>';
+
+  // Populate Cost
+  const estimatedCost = calcRecipeCost(currentRecipe, ingredientsData);
+  printRecipeCost.innerText = `Estimated cost | $${estimatedCost}`;
+
+  // Populate Instructions
+  printRecipeInstructions.innerHTML = '<p>Instructions:</p><ol>';
+  currentRecipe.instructions.forEach(instruction => {
+    printRecipeInstructions.innerHTML += `<li>${instruction.number}. ${instruction.instruction}</li>`;
+  });
+  printRecipeInstructions.innerHTML += '</ol>';
+
   document.getElementById('printModal').style.display = 'flex';
+
+  if(printBtn.addEventListener('click')) {
+    window.print();
+    closePrintModal();
+
+  }
 }
 
 function closePrintModal() {
-  document.getElementById('printModal').style.display = 'none';
+  document.querySelector('.print-modal').style.display = 'none';
 }
 
 function printPage() {
