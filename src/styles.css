@@ -334,7 +334,6 @@ input {
   margin-left: auto;
 }
 
-
 .print-modal-button {
   display: block;
   margin: 20px auto 0; 
@@ -348,3 +347,14 @@ input {
   top: 20px;
 }
 
+@media print {
+  .header, .footer, .non-printable {
+    display: none;
+  }
+
+  #printModal {
+    width: 100%;
+    height: auto;
+    overflow: visible; 
+  }
+}
