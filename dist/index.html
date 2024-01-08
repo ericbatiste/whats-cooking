@@ -64,19 +64,28 @@
             </article>
             <button class="print-button">Print Page</button>
         </section>
-        <div class="print-modal" id="printModal">
+        <section class="print-modal" id="printModal">
             <div class="print-modal-content">
                 <button class="close-modal">&times;</button>
                 <h2 id="printRecipeTitle" class="recipe-title"></h2>
-                <div class="recipe-img"></div>
                 <div class="recipe-details">
                     <p id="printRecipeCost" class="recipe-cost"></p>
-                    <div id="printRecipeIngredients" class="ingredients-list"></div>
-                    <div id="printRecipeInstructions" class="instructions-list"></div>
+                    <h3>Ingredients:</h3>
+                    <article class="ingredients-container">
+                        <ul class="ingredients-list" id="printRecipeIngredients">
+                            <!-- <li></li> -->
+                        </ul>
+                    </article>
+                    <h3>Directions:</h3>
+                    <article class="instructions-container">
+                        <ul class="instructions-list" id="printRecipeInstructions">
+                            <!-- <li></li> -->
+                        </ul>
+                    </article>
                 </div>
+                <button class="print-modal-button">Print</button>
             </div>
-            <button class="print-modal-button">Print</button>
-        </div>
+        </section>
     </main>
     <script src="bundle.js"></script>
 </body>

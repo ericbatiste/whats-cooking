@@ -22,9 +22,10 @@ const searchSavedContainer = document.querySelector('.search-saved-container');
 const viewSavedBtn = document.querySelector('#viewSavedBtn');
 const toRecipeContainer = document.querySelector('.to-recipe-container');
 const selectedUser = document.querySelector('#userBtn');
-const printModal = document.querySelector('.print-modal-button');
+const printModalButton = document.querySelector('.print-modal-button');
 const printBtn = document.querySelector('.print-button');
 const closePrintModalBtn = document.querySelector('.close-modal');
+const printModalDisplay = document.querySelector('.print-modal');
 
 let recipeData;
 let ingredientsData;
@@ -127,7 +128,7 @@ searchInputSaved.addEventListener('keyup', e => {
   }
 });
 
-printModal.addEventListener('click', printPage);
+printModalButton.addEventListener('click', printPage);
 
 printBtn.addEventListener('click', openPrintModal);
 
@@ -317,40 +318,32 @@ function openPrintModal() {
   const printRecipeIngredients = document.getElementById('printRecipeIngredients');
   const printRecipeCost = document.getElementById('printRecipeCost');
   const printRecipeInstructions = document.getElementById('printRecipeInstructions');
-  recipeImage.classList.add('hidden');
+  
   printRecipeTitle.innerText = currentRecipe.name;
-
+  
   const ingredientsToRender = formatRecipeIngredients(currentRecipe, ingredientsData);
-  printRecipeIngredients.innerHTML = '<p>Ingredients:</p><ul>';
+  printRecipeIngredients.innerHTML = '';
   ingredientsToRender.forEach(({ name, amount, unit }) => {
     printRecipeIngredients.innerHTML += `<li>${name} | ${amount} ${unit}</li>`;
   });
-  printRecipeIngredients.innerHTML += '</ul>';
 
   const estimatedCost = calcRecipeCost(currentRecipe, ingredientsData);
   printRecipeCost.innerText = `Estimated cost | $${estimatedCost}`;
 
-  printRecipeInstructions.innerHTML = '<p>Instructions:</p><ol>';
+  printRecipeInstructions.innerHTML = '';
   currentRecipe.instructions.forEach(instruction => {
     printRecipeInstructions.innerHTML += `<li>${instruction.number}. ${instruction.instruction}</li>`;
   });
-  printRecipeInstructions.innerHTML += '</ol>';
 
-  document.getElementById('printModal').style.display = 'flex';
-
-  if(printBtn.addEventListener('click')) {
-    window.print();
-    closePrintModal();
-
-  }
+  printModalDisplay.style.display = 'flex';
 }
 
 function closePrintModal() {
-  document.querySelector('.print-modal').style.display = 'none';
-  recipeImage.classList.remove('hidden');
+  printModalDisplay.style.display = 'none';
 }
 
 function printPage() {
+  printModalDisplay.style.height = 'auto';
   window.print();
   closePrintModal();
 }
