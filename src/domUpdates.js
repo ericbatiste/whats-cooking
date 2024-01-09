@@ -78,7 +78,7 @@ function retrieveData() {
       return Promise.all(
         responses.map(response => {
           if (!response.ok) {
-            throw new Error('Ooops!');
+            throw new Error('Ooops, please try again!');
           }
           return response.json();
         })
