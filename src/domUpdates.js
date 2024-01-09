@@ -30,12 +30,47 @@ const printModalDisplay = document.querySelector('.print-modal');
 let recipeData;
 let ingredientsData;
 let userData;
-let currentUser
+let currentUser;
 let currentRecipe;
 
 window.addEventListener('load', () => {
   retrieveData();
 });
+viewHomeBtn.addEventListener('click', () => {
+  displayRecipesHome(recipeData);
+  renderHomeView();
+});
+removeSavedRecipeBtn.addEventListener('click', () => {
+  removeRecipe(recipesToCook, currentRecipe);
+});
+saveRecipeBtn.addEventListener('click', () => {
+  postUserFavorite(saveRecipe(recipesToCook, currentRecipe));
+});
+viewSavedBtn.addEventListener('click', e => {
+  renderSavedRecipes(e);
+});
+recipesContainer.addEventListener('click', e => {
+  goToRecipe(e, recipeData);
+});
+homeContainer.addEventListener('click', e => {
+  goToRecipe(e, recipeData);
+});
+allRecipesBtn.addEventListener('click', e => {
+  renderAllRecipes(e);
+});
+searchInputAll.addEventListener('keyup', e => {
+  if (e.key === 'Enter') {
+    userSearchRecipes(recipeData, searchInputAll);
+  }
+});
+searchInputSaved.addEventListener('keyup', e => {
+  if (e.key === 'Enter') {
+    userSearchRecipes(recipesToCook, searchInputSaved);
+  }
+});
+printModalButton.addEventListener('click', printPage);
+printBtn.addEventListener('click', openPrintModal);
+closePrintModalBtn.addEventListener('click', closePrintModal);
 
 function retrieveData() {
   fetchData()
@@ -84,58 +119,11 @@ function refreshUsersSavedRecipes() {
   recipeData.forEach(recipe => {
     const match = currentUser.recipesToCook.find(id => recipe.id === id);
     if (match) recipesToCook.push(recipe);
-  })
+  });
 }
 
-viewHomeBtn.addEventListener('click', () => {
-  displayRecipesHome(recipeData);
-  renderHomeView();
-});
-
-removeSavedRecipeBtn.addEventListener('click', () => {
-  removeRecipe(recipesToCook, currentRecipe);
-});
-
-saveRecipeBtn.addEventListener('click', () => {
-  postUserFavorite(saveRecipe(recipesToCook, currentRecipe));
-});
-
-viewSavedBtn.addEventListener('click', e => {
-  renderSavedRecipes(e);
-});
-
-recipesContainer.addEventListener('click', e => {
-  goToRecipe(e, recipeData);
-});
-
-homeContainer.addEventListener('click', e => {
-  goToRecipe(e, recipeData);
-});
-
-allRecipesBtn.addEventListener('click', e => {
-  renderAllRecipes(e);
-});
-
-searchInputAll.addEventListener('keyup', e => {
-  if (e.key === 'Enter') {
-    userSearchRecipes(recipeData, searchInputAll);
-  }
-});
-
-searchInputSaved.addEventListener('keyup', e => {
-  if (e.key === 'Enter') {
-    userSearchRecipes(recipesToCook, searchInputSaved);
-  }
-});
-
-printModalButton.addEventListener('click', printPage);
-
-printBtn.addEventListener('click', openPrintModal);
-
-closePrintModalBtn.addEventListener('click', closePrintModal);
-
 export function renderRandomUser() {
-  currentUser = userData.find(user => user.id === 46)
+  currentUser = userData.find(user => user.id === 46);
   // currentUser = userData[getRandomIndex(userData)];
   selectedUser.innerText = `Hello ${currentUser.name}!`;
 }
@@ -244,6 +232,36 @@ function renderSavedRecipes(e) {
   }
 }
 
+function openPrintModal() {
+  const printRecipeTitle = document.getElementById('printRecipeTitle');
+  const printRecipeIngredients = document.getElementById('printRecipeIngredients');
+  const printRecipeInstructions = document.getElementById('printRecipeInstructions');
+
+  printRecipeTitle.innerText = currentRecipe.name;
+
+  const ingredientsToRender = formatRecipeIngredients(currentRecipe, ingredientsData);
+  printRecipeIngredients.innerHTML = '';
+  ingredientsToRender.forEach(({ name, amount, unit }) => {
+    printRecipeIngredients.innerHTML += `<li>${name} | ${amount} ${unit}</li>`;
+  });
+
+  printRecipeInstructions.innerHTML = '';
+  currentRecipe.instructions.forEach(instruction => {
+    printRecipeInstructions.innerHTML += `<li>${instruction.number}. ${instruction.instruction}</li>`;
+  });
+
+  printModalDisplay.style.display = 'flex';
+}
+
+function closePrintModal() {
+  printModalDisplay.style.display = 'none';
+}
+
+function printPage() {
+  print();
+  closePrintModal();
+}
+
 function renderRecipeCard(container, recipe) {
   container.innerHTML += `
       <div class="recipe-card" id=${recipe.id}>
@@ -310,35 +328,4 @@ function toggleAddRemoveSavedBtns() {
     removeSavedRecipeBtn.classList.add('hidden');
     saveRecipeBtn.classList.remove('hidden');
   }
-}
-
-
-function openPrintModal() {
-  const printRecipeTitle = document.getElementById('printRecipeTitle');
-  const printRecipeIngredients = document.getElementById('printRecipeIngredients');
-  const printRecipeInstructions = document.getElementById('printRecipeInstructions');
-  
-  printRecipeTitle.innerText = currentRecipe.name;
-  
-  const ingredientsToRender = formatRecipeIngredients(currentRecipe, ingredientsData);
-  printRecipeIngredients.innerHTML = '';
-  ingredientsToRender.forEach(({ name, amount, unit }) => {
-    printRecipeIngredients.innerHTML += `<li>${name} | ${amount} ${unit}</li>`;
-  });
-
-  printRecipeInstructions.innerHTML = '';
-  currentRecipe.instructions.forEach(instruction => {
-    printRecipeInstructions.innerHTML += `<li>${instruction.number}. ${instruction.instruction}</li>`;
-  });
-
-  printModalDisplay.style.display = 'flex';
-}
-
-function closePrintModal() {
-  printModalDisplay.style.display = 'none';
-}
-
-function printPage() {
-  window.print();
-  closePrintModal();
 }

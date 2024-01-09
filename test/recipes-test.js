@@ -121,6 +121,27 @@ describe('Search Recipes', () => {
     ]);
   });
 
+  it('Should search for recipes regardless of capitalization', () => {
+    const recipe = searchRecipes(recipeData, 'bacon And eGgs');
+
+    expect(recipe).to.deep.equal([{
+      id: 3,
+      image: 'url',
+      ingredients: [
+        { id: 103, quantity: { amount: 1, unit: 'one egg' } },
+        { id: 110, quantity: { amount: 1, unit: 'tbsp' } },
+        { id: 118, quantity: { amount: 2, unit: 'slice' } }
+      ],
+      instructions: [
+        { instruction: 'This is instruction number 1', number: 1 },
+        { instruction: 'This is instruction number 2', number: 2 },
+        { instruction: 'This is instruction number 3', number: 3 }
+      ],
+      name: 'Bacon and Eggs',
+      tags: ['breakfast']
+    }])
+  })
+
   it('Should handle search for an invalid tag', () => {
     const filteredRecipes = searchRecipes(recipeData, 'seafood');
 
