@@ -171,6 +171,7 @@ input {
   justify-content: center;
   align-items: center;
   margin: 10px;
+  padding-left: 35%;
 }
 
 .ingredients-list {
@@ -190,7 +191,8 @@ input {
 .instructions-container {
   grid-area: instructions;
   display: flex;
-  margin-top: 10px;
+  margin-top: 40px;
+  padding: 0 5%;
 }
 
 .instructions-list {
@@ -275,22 +277,20 @@ input {
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding: 20px;
 }
 
 .print-modal-content {
   background: #fff;
-  width: 90vw;
-  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   padding: 20px;
-  margin-right: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   overflow-y: auto;
 }
 
